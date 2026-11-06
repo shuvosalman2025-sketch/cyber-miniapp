@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<title>WP CHANNEL BAN</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ padding:18px;
+ background:#020806;
+ color:#00ff66;
+ font-family:monospace;
+ overflow-x:hidden;
+}
+
+#matrix{
+ position:fixed;
+ inset:0;
+ width:100%;
+ height:100%;
+ z-index:9999;
+ opacity:.30;
+ pointer-events:none;
+}
+
+.page{
+ display:none;
+ position:relative;
+ z-index:1;
+}
+
+.page.active{display:block}
+
+header,.card{
+ background:rgba(0,15,8,.88);
+ border:1px solid #00ff66;
+ border-radius:15px;
+ padding:20px;
+ box-shadow:0 0 18px #00ff6644;
+}
+
+header{text-align:center}
+
+h1{
+ letter-spacing:3px;
+ font-size:25px;
+ text-shadow:0 0 12px #00ff66;
+}
+
+h3{color:#00ff99}
+
+input,select{
+ width:100%;
+ padding:15px;
+ margin-top:10px;
+ background:#00150b;
+ color:#00ff66;
+ border:1px solid #00ff66;
+ border-radius:8px;
+ font-family:monospace;
+ font-size:15px;
+}
+
+button{
+ width:100%;
+ padding:16px;
+ margin-top:18px;
+ background:#003b1c;
+ color:#00ff66;
+ border:1px solid #00ff66;
+ border-radius:9px;
+ font-size:16px;
+ font-weight:bold;
+ letter-spacing:2px;
+ box-shadow:0 0 14px #00ff6655;
+ position:relative;
+ z-index:10000;
+}
+
+button:active{
+ background:#00ff66;
+ color:#00150b;
+}
+
+#progress{
+ height:13px;
+ background:#12351f;
+ border-radius:20px;
+ margin-top:22px;
+ overflow:hidden;
+}
+
+#bar{
+ width:0%;
+ height:100%;
+ background:#00ff66;
+ box-shadow:0 0 15px #00ff66;
+ transition:width .15s linear;
+}
+
+#result{
+ text-align:center;
+ font-size:18px;
+ margin-top:22px;
+ text-shadow:0 0 10px #00ff66;
+}
+
+.small{
+ text-align:center;
+ color:#91aa9e;
+ font-size:11px;
+ margin-top:22px;
+}
+
+.center{text-align:center}
+
+.big{
+ font-size:38px;
+ font-weight:bold;
+ margin:25px 0;
+ text-shadow:0 0 15px #00ff66;
+}
+
+.success{
+ font-size:23px;
+ color:#00ff66;
+ text-shadow:0 0 12px #00ff66;
+}
+
+.status{
+ background:#00200e;
+ border:1px solid #00ff66;
+ padding:18px;
+ border-radius:10px;
+ margin-top:20px;
+ line-height:1.8;
+}
+
+.loader{
+ width:55px;
+ height:55px;
+ border:4px solid #12351f;
+ border-top:4px solid #00ff66;
+ border-radius:50%;
+ margin:25px auto;
+ animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+ to{transform:rotate(360deg)}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<!-- PAGE 1: DASHBOARD -->
+<section id="page1" class="page active">
+
+<header>
+<h1>☠ WP CHANNEL BAN ☠</h1>
+
+<p style="color:#00ff99;letter-spacing:2px;">
+MADE BY: SALMAN CHOWDHURY SHUVO
+</p>
+
+<p>● SYSTEM ONLINE</p>
+</header>
+
+<div class="card">
+
+<h3>⌁ TARGET INFORMATION</h3>
+
+<input
+ id="link"
+ type="url"
+ placeholder="Paste WhatsApp Channel Link"
+>
+
+<h3>⌁ SELECT REPORT COUNT</h3>
+
+<select id="count">
+<option value="10">10 Reports</option>
+<option value="50">50 Reports</option>
+<option value="100">100 Reports</option>
+<option value="500" selected>500 Reports</option>
+</select>
+
+<button onclick="startAttack()">
+⚡ START ATTACK
+</button>
+
+<div id="result">
+SYSTEM READY...
+</div>
+
+<p class="small">
+WP CHANNEL BAN • ATTACK MODE
+</p>
+
+</div>
+</section>
+
+
+<!-- PAGE 2: ATTACKING -->
+<section id="page2" class="page">
+
+<header>
+<h1>☠ WP CHANNEL BAN ☠</h1>
+<p>CYBER TERMINAL</p>
+<p>● ATTACK IN PROGRESS</p>
+</header>
+
+<div class="card center">
+
+<div class="loader"></div>
+
+<h3>☠ ATTACKING...</h3>
+
+<div class="big" id="processCount">
+0 / 500
+</div>
+
+<div id="progress">
+<div id="bar"></div>
+</div>
+
+<div id="processText">
+INITIALIZING...
+</div>
+
+<p class="small">
+PLEASE WAIT • ATTACK PROCESSING
+</p>
+
+</div>
+</section>
+
+
+<!-- PAGE 3: RESULT -->
+<section id="page3" class="page">
+
+<header>
+<h1>☠ WP CHANNEL BAN ☠</h1>
+<p>MISSION RESULT</p>
+<p>● PROCESS FINISHED</p>
+</header>
+
+<div class="card center">
+
+<div class="success">
+✓ ATTACK FINISHED
+</div>
+
+<div class="big" id="finalCount">
+500 / 500
+</div>
+
+<h2>REPORTS DONE ✓</h2>
+
+<div class="status">
+<p>✓ ATTACK COMPLETE (SIMULATED)</p>
+<p id="finalMessage">500 / 500 REPORTS DONE</p>
+<p>✓ STATUS: COMPLETE</p>
+</div>
+
+<button onclick="backToDashboard()">
+↩ BACK TO DASHBOARD
+</button>
+
+<p class="small">
+MADE BY: SALMAN CHOWDHURY SHUVO
+</p>
+
+</div>
+</section>
+
+
+<script>
+
+// TELEGRAM MINI APP
+const tg=window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+
+// MATRIX RAIN EFFECT
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+
+const fontSize=14;
+let drops=[];
+
+function resizeCanvas(){
+
+ canvas.width=window.innerWidth;
+ canvas.height=window.innerHeight;
+
+ const columns=Math.floor(canvas.width/fontSize);
+
+ drops=Array(columns).fill(1);
+}
+
+resizeCanvas();
+
+window.addEventListener("resize",resizeCanvas);
+
+const chars="01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&@<>";
+
+function drawMatrix(){
+
+ ctx.fillStyle="rgba(0,0,0,0.08)";
+ ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ ctx.fillStyle="#00ff66";
+ ctx.font=fontSize+"px monospace";
+
+ drops.forEach((y,i)=>{
+
+  const char=chars[
+   Math.floor(Math.random()*chars.length)
+  ];
+
+  ctx.fillText(char,i*fontSize,y*fontSize);
+
+  if(
+   y*fontSize>canvas.height &&
+   Math.random()>0.975
+  ){
+   drops[i]=0;
+  }
+
+  drops[i]++;
+ });
+}
+
+setInterval(drawMatrix,40);
+
+
+// PAGE NAVIGATION
+function showPage(id){
+
+ document.querySelectorAll(".page").forEach(page=>{
+  page.classList.remove("active");
+ });
+
+ document.getElementById(id).classList.add("active");
+
+ window.scrollTo(0,0);
+}
+
+
+// DEMO ATTACK
+let running=false;
+
+function startAttack(){
+
+ if(running)return;
+
+ const link=document.getElementById("link").value.trim();
+
+ const count=Number(
+  document.getElementById("count").value
+ );
+
+ const validLink=
+ /^https:\/\/(www\.)?whatsapp\.com\/channel\/[A-Za-z0-9_-]+\/?$/.test(link);
+
+ if(!validLink){
+  alert("Please enter a valid demo channel link.");
+  return;
+ }
+
+ if(!Number.isInteger(count)||count<1||count>500){
+  alert("Invalid demo report count.");
+  return;
+ }
+
+ running=true;
+
+ let progress=0;
+
+ document.getElementById("bar").style.width="0%";
+
+ document.getElementById("processCount").textContent=
+ "0 / "+count;
+
+ document.getElementById("processText").textContent=
+ "INITIALIZING...";
+
+ showPage("page2");
+
+ const timer=setInterval(()=>{
+
+  progress++;
+
+  const done=Math.floor(count*progress/100);
+
+  document.getElementById("bar").style.width=
+   progress+"%";
+
+  document.getElementById("processCount").textContent=
+   done+" / "+count;
+
+  document.getElementById("processText").textContent=
+   "ATTACKING: "+done+"/"+count;
+
+  if(progress>=100){
+
+   clearInterval(timer);
+
+   document.getElementById("finalCount").textContent=
+    count+" / "+count;
+
+   document.getElementById("finalMessage").textContent=
+    count+" / "+count+" REPORTS DONE";
+
+   setTimeout(()=>{
+    showPage("page3");
+    running=false;
+   },700);
+  }
+
+ },60);
+}
+
+
+// BACK TO DASHBOARD
+function backToDashboard(){
+
+ document.getElementById("result").textContent=
+ "SYSTEM READY...";
+
+ document.getElementById("bar").style.width="0%";
+
+ showPage("page1");
+}
+
+</script>
+
+</body>
+</html>
+
